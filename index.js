@@ -1,15 +1,86 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+const chalk = require("chalk");
+const core = require("@actions/core");
 
-try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
-} catch (error) {
-  core.setFailed(error.message);
+const config = {
+  highSeverityThreshold: 150, // ms
+  mediumServerityTheshold: 75, // ms
+  actionsEnabled: false,
+};
+
+const slothyTests = [];
+
+function testCompleted(duration, title) {
+  if (duration > config.mediumServerityTheshold) {
+    const isServere = duration > config.highSeverityThreshold;
+    slothyTests.push({
+      title,
+      duration,
+      actionDisplay: isServere ? core.error : core.warning,
+      colorDisplay: isServere ? chalk.red : chalk.yellow,
+    });
+  }
 }
+
+function completed() {
+  console.log(chalk.bold("Slothy Test Count: %s\n"), slothyTests.length);
+
+  if (slothyTests.length === 0) {
+    return;
+  }
+
+  const sortSlothyTests = slothyTests.sort((a, b) => {
+    return b.duration - a.duration;
+  });
+
+  sortSlothyTests.forEach((test) => {
+    console.log(test.colorDisplay(`${test.duration} ms`), test.title);
+    if (config.actionsEnabled) {
+      test.actionDisplay(`${test.duration} ms: ${test.title}`);
+    }
+  });
+
+  setTimeout(() => {
+    process.exit();
+  }, 0);
+}
+
+function testRunner(runner, options) {
+  const { actions, slow } = options;
+
+  const slowNum = Number(slow);
+  if (Number.isInteger(slowNum)) {
+    config.mediumServerityTheshold = slowNum;
+    config.highSeverityThreshold = slowNum * 2;
+  } else {
+    throw new Error("Slow variable needs to be an integer");
+  }
+
+  if (actions === "true" || actions === "false") {
+    config.actionsEnabled = actions === "true";
+  } else if (actions !== undefined) {
+    throw new Error("Actions needs to be a boolean true/false");
+  }
+  runner.on("test end", (test) => {
+    try {
+      testCompleted(test.duration, test.fullTitle());
+    } catch (e) {
+      console.log(e);
+      if (config.actionsEnabled) {
+        core.setFailed(e.message);
+      }
+    }
+  });
+
+  runner.on("end", () => {
+    try {
+      completed();
+    } catch (e) {
+      console.log(e);
+      if (config.actionsEnabled) {
+        core.setFailed(e.message);
+      }
+    }
+  });
+}
+
+module.exports = testRunner;

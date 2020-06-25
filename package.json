@@ -1,23 +1,23 @@
 {
-  "name": "notify-slack-action",
+  "name": "mocha-sloth-reporter",
   "version": "1.0.0",
-  "description": "Notify slack of CI results with commit information",
+  "description": "Mocha reporter to detect slow tests and display to github actions if enabled",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon index.js",
+    "dev": "mocha tests -R index.js",
     "lint": "eslint --ext .js ./",
     "lint:fix": "eslint --fix --ext .js ./"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/legolamel/notify-slack-action.git"
+    "url": "git+https://github.com/legolamel/mocha-sloth-reporter.git"
   },
   "author": "Edward Romero",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/legolamel/notify-slack-action/issues"
+    "url": "https://github.com/legolamel/mocha-sloth-reporter/issues"
   },
-  "homepage": "https://github.com/legolamel/notify-slack-action#readme",
+  "homepage": "https://github.com/legolamel/mocha-sloth-reporter#readme",
   "devDependencies": {
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -29,11 +29,13 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.0",
-    "jest": "^26.0.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
   },
   "dependencies": {
-    "@actions/core": "^1.2.4"
+    "@actions/core": "^1.2.4",
+    "chai": "^4.2.0",
+    "chalk": "^4.1.0",
+    "mocha": "^8.0.1"
   }
 }
