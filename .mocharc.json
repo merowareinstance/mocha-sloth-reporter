@@ -1,0 +1,7 @@
+{
+    "reporter": "index.js",
+    "reporterOptions": {
+        "actions": true,
+        "slow": 100
+    }
+}

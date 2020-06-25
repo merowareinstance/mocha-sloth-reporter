@@ -4,7 +4,7 @@
   "description": "Mocha reporter to detect slow tests and display to github actions if enabled",
   "main": "index.js",
   "scripts": {
-    "dev": "mocha tests -R index.js --actions true --slow 100",
+    "dev": "mocha tests",
     "lint": "eslint --ext .js ./",
     "lint:fix": "eslint --fix --ext .js ./"
   },
