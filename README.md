@@ -35,6 +35,15 @@ npm install --save-dev mocha-sloth-reporter
     ```
     mocha --reporter mocha-sloth-reporter --actions true
     ```
+
+`--inline <boolean>`
+  - Default: false
+  - Display:
+    - It will provide the results inline after each test and not in a summarized way after the tests are finalized.
+  - Example:
+    ```
+    mocha --reporter mocha-sloth-reporter --inline true
+    ```
     
 ### Output
 
