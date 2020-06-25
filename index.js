@@ -45,22 +45,20 @@ function completed() {
 }
 
 function testRunner(runner, options) {
-  const { actions, slow } = options;
-  const actionsPath = options["reporterOptions.actions"];
-  const slowPath = options["reporterOptions.slow"];
+  const { reporterOptions } = options;
+  let { actions, slow } = options;
+
+  actions = actions || options["reporterOptions.actions"];
+  slow = slow || options["reporterOptions.slow"];
+  if (reporterOptions) {
+    actions = actions || reporterOptions.actions;
+    slow = slow || reporterOptions.slow;
+  }
 
   const slowNum = Number(slow);
   if (slow && Number.isInteger(slowNum)) {
     config.mediumServerityTheshold = slowNum;
     config.highSeverityThreshold = slowNum * 2;
-  } else {
-    throw new Error("Slow variable needs to be an integer");
-  }
-
-  const slowPathNum = Number(slowPath);
-  if (slowPath && Number.isInteger(slowPathNum)) {
-    config.mediumServerityTheshold = slowPathNum;
-    config.highSeverityThreshold = slowPathNum * 2;
   } else {
     throw new Error("Slow variable needs to be an integer");
   }
@@ -73,17 +71,6 @@ function testRunner(runner, options) {
   ) {
     config.actionsEnabled = actions === "true";
   } else if (actions !== undefined) {
-    throw new Error("Actions needs to be a boolean true/false");
-  }
-
-  if (
-    actionsPath === "true" ||
-    actionsPath === "false" ||
-    actionsPath === true ||
-    actionsPath === false
-  ) {
-    config.actionsEnabled = actionsPath === "true";
-  } else if (actionsPath !== undefined) {
     throw new Error("Actions needs to be a boolean true/false");
   }
 
