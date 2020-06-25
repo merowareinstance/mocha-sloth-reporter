@@ -46,6 +46,7 @@ function completed() {
 
 function testRunner(runner, options) {
   const { reporterOptions } = options;
+
   let { actions, slow } = options;
 
   actions = actions || options["reporterOptions.actions"];
@@ -59,7 +60,7 @@ function testRunner(runner, options) {
   if (slow && Number.isInteger(slowNum)) {
     config.mediumServerityTheshold = slowNum;
     config.highSeverityThreshold = slowNum * 2;
-  } else {
+  } else if (slow !== undefined) {
     throw new Error("Slow variable needs to be an integer");
   }
 
