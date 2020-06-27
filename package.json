@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/legolamel/mocha-sloth-reporter.git"
+    "url": "git+https://github.com/meroware/mocha-sloth-reporter.git"
   },
   "author": "Edward Romero",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/legolamel/mocha-sloth-reporter/issues"
+    "url": "https://github.com/meroware/mocha-sloth-reporter/issues"
   },
-  "homepage": "https://github.com/legolamel/mocha-sloth-reporter#readme",
+  "homepage": "https://github.com/meroware/mocha-sloth-reporter#readme",
   "devDependencies": {
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
