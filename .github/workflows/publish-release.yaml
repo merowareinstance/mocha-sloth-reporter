@@ -1,7 +1,8 @@
-name: Publish-Release
+name: Publish Release
 on:
   release:
-    types: [created]
+    types: 
+      - created
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -14,7 +15,7 @@ jobs:
     - run: npm run lint
   publish-npm:
     needs: ci
-     steps:
+    steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
