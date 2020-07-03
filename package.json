@@ -1,6 +1,6 @@
 {
   "name": "mocha-sloth-reporter",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Mocha reporter to detect slow tests and display to github actions if enabled",
   "main": "index.js",
   "scripts": {
